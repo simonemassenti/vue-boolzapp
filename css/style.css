@@ -299,7 +299,7 @@ body {
     display: none;
     color: var(--black-color);
     font-size: .8rem;
-    z-index: 999;
+    z-index: 9999;
     box-shadow: 1px 1px 20px var(--gray-color);
 }
 

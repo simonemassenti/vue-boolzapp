@@ -84,12 +84,13 @@
                                             {{ contact.name }}
                                         </div>
                                         <div class="msg-preview">
-                                            Ultimo messaggio
+                                            {{ contact.messages[contact.messages.length -1].message.slice(0,25) }}
+                                            <span v-if="contact.messages[contact.messages.length -1].message.length > 25">...</span>
                                         </div>
                                     </div>
 
                                     <div class="time">
-                                        22.36
+                                        {{ formatDate(contact.messages[contact.messages.length -1].date )}}
                                     </div>
                                 </div>
                             </li>
@@ -113,7 +114,7 @@
                                 {{ contacts[activeIndex].name }}
                                 <!-- Time -->
                                 <div class="state">
-                                    Ultimo accesso oggi alle 19.58
+                                    Ultimo accesso oggi alle {{ formatDate(contacts[activeIndex].messages[contacts[activeIndex].messages.length -1].date) }}
                                 </div>
                             </div>
                         </div>
@@ -161,7 +162,7 @@
 
                                     <!-- Time -->
                                     <div>
-                                        12.09
+                                        {{ formatDate(msg.date) }}
                                     </div>
 
                                 </div>
@@ -197,7 +198,7 @@
         </div>
         <!-- WRAPPER  -->
     </div>
-    
+
     <script src="https://cdn.jsdelivr.net/npm/luxon@3.4.4/build/global/luxon.min.js"></script>
     <script src="js/script.js"></script>
 </body>

@@ -179,11 +179,10 @@ createApp ({
     methods : {
         chat(i) {
             this.activeIndex = i;
-            this.setTime();
         },
         sendMessage(){
             this.contacts[this.activeIndex].messages.push({
-                date: "10/11/1234 12:90:56",
+                date: dt.now().setLocale('it').toLocaleString(dt.DATETIME_SHORT_WITH_SECONDS),
                 message: this.myMsg,
                 status: "sent"
             });
@@ -192,7 +191,7 @@ createApp ({
         },
         answer() {
             this.contacts[this.activeIndex].messages.push({
-                date: "10/11/1234 12:90:56",
+                date: dt.now().setLocale('it').toLocaleString(dt.DATETIME_SHORT_WITH_SECONDS),
                 message: "Ok!",
                 status: "received"
             })
@@ -208,6 +207,10 @@ createApp ({
         },
         deleteMsg(i) {
             this.contacts[this.activeIndex].messages.splice(i, 1);
+        },
+        formatDate(myDate) {
+             let myTime = myDate.split(" ")[1].slice(0,5);
+            return myTime;
         }
     }
 
