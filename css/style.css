@@ -170,6 +170,7 @@ body {
 .contacts-list {
     height: calc(100% - (var(--head-height) + var(--notify-row-height) + var(--search-row-height)));
     overflow-y: scroll;
+    background-color: var(--white-color);
 }
 
 .contacts-list li{
