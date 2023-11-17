@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+        integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap"
+        rel="stylesheet">
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <title>Boolzapp</title>
+</head>
+
+<body>
+    <div id="app">
+        <!-- WRAPPER -->
+        <div class="wrapper">
+            <!-- CONTAINER -->
+            <div class="bg-green"></div>
+            <div class="container">
+                <!-- left column CONTACTS-->
+                <div class="contacts-col">
+                    <!-- HEADER-LEFT -->
+                    <div class="me-row flexer j-between">
+                        <img src="img/avatar_io.jpg" alt="myself" class="avatar">
+
+                        <div class="icons">
+                            <i class="fa-solid fa-circle-notch"></i>
+
+                            <i class="fa-solid fa-message"></i>
+
+                            <i class="fa-solid fa-ellipsis-vertical"></i>
+                        </div>
+                    </div>
+                    <!-- /HEADER-LEFT -->
+
+                    <!-- NOTIFICATIONS ROW -->
+                    <div class="notify-row">
+                        <div class="flexer">
+                            <div class="avatar">
+                                <i class="fa-solid fa-bell-slash"></i>
+                            </div>
+
+                            <div class="preview flexer">
+                                <div>
+                                    <div class="fw-600 fs-08">
+                                        Ricevi notifiche di nuovi messaggi
+                                    </div>
+                                    <div class="msg-preview underline">
+                                        Attiva notifiche desktop
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /NOTIFICATIONS ROW -->
+
+                    <!-- SEARCH CHAT ROW -->
+                    <div class="search-chat-row">
+                        <div class="search-chat flexer">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+
+
+                            <input type="text" placeholder="Cerca o inizia una nuova chat" v-model="inputSearch" @keyup="search">
+                        </div>
+                    </div>
+                    <!-- /SEARCH CHAT ROW -->
+
+                    <!-- MAIN LEFT - CONTACT LIST -->
+                    <div class="contacts-list">
+                        <ul>
+                            <li v-for="(contact, index) in contacts" @click="chat(index)" v-show="contact.visible">
+                                <img :src="`img/avatar${contact.avatar}.jpg`" :alt="contact.name" class="avatar">
+
+                                <div class="preview flexer j-between">
+                                    <div>
+                                        <div class="fw-600">
+                                            {{ contact.name }}
+                                        </div>
+                                        <div class="msg-preview">
+                                            Ultimo messaggio
+                                        </div>
+                                    </div>
+
+                                    <div class="time">
+                                        22.36
+                                    </div>
+                                </div>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <!-- /MAIN LEFT - CONTACT LIST -->
+                </div>
+
+                <!-- /left column -->
+
+                <!-- right column CHAT-->
+                <div class="chat-col">
+                    <!-- HEADER-RIGHT -->
+                    <div class="chat-head flexer j-between">
+                        <!-- Chat info -->
+                        <div class="flexer mrg-h1">
+                            <img :src="`img/avatar${contacts[activeIndex].avatar}.jpg`" :alt="contacts[activeIndex].name" class="avatar">
+                            <!-- Name -->
+                            <div class="fw-600 mrg-h1">
+                                {{ contacts[activeIndex].name }}
+                                <!-- Time -->
+                                <div class="state">
+                                    Ultimo accesso oggi alle 19.58
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="mrg-h1 icons">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+
+                            <i class="fa-solid fa-paperclip"></i>
+
+                            <i class="fa-solid fa-ellipsis-vertical"></i>
+                        </div>
+                    </div>
+                    <!-- /HEADER-RIGHT -->
+
+                    <!-- MAIN CHAT RIGHT -->
+                    <div class="chat">
+                        <!--My message container -->
+                        <div v-for="(msg, i) in contacts[activeIndex].messages" :class="`${msg.status}-wrap`">
+
+                            <div class="msg flexer" :class="`${msg.status}`">
+                                <!-- Message -->
+                                <div class="msg-txt">
+                                    {{ msg.message }}
+                                </div>
+
+                                <!-- Chevron and Time -->
+                                <div class="info ">
+                                    <!-- Chevron -->
+                                    <div class="show-dropdown">
+                                        <!-- Chevron icon -->
+                                        <i class="fa-solid fa-chevron-down "></i>
+
+                                        <!-- Dropdown Menu -->
+                                        <div class="dropdown">
+                                            <div>
+                                                Info messaggio
+                                            </div>
+
+                                            <div @click="deleteMsg(i)">
+                                                Cancella messaggio
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Time -->
+                                    <div>
+                                        12.09
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+                    <!-- /MAIN CHAT RIGHT -->
+
+                    <!-- FOOTER RIGHT - MSG BAR-->
+                    <div class="msg-bar">
+                        <!-- emoticons -->
+                        <div class="ot-msg">
+                            <i class="fa-regular fa-face-smile"></i>
+                        </div>
+
+                        <!-- write message -->
+                        <input type="text" class="msg-input" placeholder="Scrivi un messaggio" v-model="myMsg" @keyup.enter="sendMessage">
+
+                        <!-- vocal message -->
+                        <div class="ot-msg vocal">
+                            <i class="fa-solid fa-microphone"></i>
+                        </div>
+
+                    </div>
+                    <!-- /FOOTER RIGHT MSG BAR-->
+                </div>
+                <!-- /right column -->
+            </div>
+            <!-- /CONTAINER -->
+        </div>
+        <!-- WRAPPER  -->
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/luxon@3.4.4/build/global/luxon.min.js"></script>
+    <script src="js/script.js"></script>
+</body>
+
+</html>
