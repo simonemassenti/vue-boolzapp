@@ -1,7 +1,10 @@
+// Destructuration of the Vue object
 const { createApp } = Vue;
 
+// Object DateTime
 let dt = luxon.DateTime;
 
+// Contacts array
 contacts = [
     {
         name: 'Michele',
@@ -166,52 +169,66 @@ contacts = [
     }
 ]
 
-createApp ({
+// app is the object createApp took from the Vue object 
+const app = createApp({
+ 
     data() {
-        return{
+        //return contains the variables
+        return {
             contacts: contacts,
             activeIndex: 0,
             myMsg: "",
             inputSearch: "",
-            timeMsg: ""
+            indexMsg: 0
         }
     },
-    methods : {
+    //methods contains the functions
+    methods: {
+        //At the click in one contact it take the index of the contact clicked and change the value of the activeIndex
         chat(i) {
             this.activeIndex = i;
         },
-        sendMessage(){
-            this.contacts[this.activeIndex].messages.push({
-                date: dt.now().setLocale('it').toLocaleString(dt.DATETIME_SHORT_WITH_SECONDS),
-                message: this.myMsg,
-                status: "sent"
-            });
-            this.myMsg = "";
-            setTimeout(this.answer, 1000);
+        //This function adds an object to the array contact at the index activeIndex at the last position of the message array. The object created is formed by the date, the message writed in the input element and the status 'send'. At the end clears the input text and after a second invokes the answer() function. This function is activated at the click of the enter key. The message is send when ihe input text is not void
+        sendMessage() {
+            this.indexMsg = this.activeIndex;
+            if (this.myMsg !== "") {
+                this.contacts[this.indexMsg].messages.push({
+                    date: dt.now().setLocale('it').toLocaleString(dt.DATETIME_SHORT_WITH_SECONDS),
+                    message: this.myMsg,
+                    status: "sent"
+                });
+                this.myMsg = "";
+                setTimeout(this.answer, 1000);
+            }
+
         },
+        //This function is activated a second after the sendMessage() function. It creates an object similar to the object created by the sendMessage() function, the only things that change are: the message string is always equal to "Ok!" and the status is always equal to "received"
         answer() {
-            this.contacts[this.activeIndex].messages.push({
+            this.contacts[this.indexMsg].messages.push({
                 date: dt.now().setLocale('it').toLocaleString(dt.DATETIME_SHORT_WITH_SECONDS),
                 message: "Ok!",
                 status: "received"
             })
         },
-        search(){
+        //This function set to lower case the input writed in the search input text, and compare it with each name in the contacts array setted to lower case also that, if the name doesen't contains the searchContact string the key visible is changed to false. This function is activated at every key click
+        search() {
             let searchContact = this.inputSearch.toLowerCase().trim();
             this.contacts.forEach(contact => {
-                contact.visible = true; 
-                if(!contact.name.toLowerCase().includes(searchContact)){
-                    contact.visible = false; 
+                contact.visible = true;
+                if (!contact.name.toLowerCase().includes(searchContact)) {
+                    contact.visible = false;
                 }
             });
         },
+        // This function delete an element in the messages array at the index i passed as a parameter
         deleteMsg(i) {
             this.contacts[this.activeIndex].messages.splice(i, 1);
         },
+        //It takes the string myDate, splites it in two parts and saves in the variable myTime the firsts 5 characters of the second element es. myDate = 12/03/2023 12:09:55 -> [12/03/2023] [12:09:55] -> 12:09
         formatDate(myDate) {
-             let myTime = myDate.split(" ")[1].slice(0,5);
+            let myTime = myDate.split(" ")[1].slice(0, 5);
             return myTime;
         }
     }
 
-}).mount("#app");
+}).mount("#app");//connects the "app" object created with Vue to the HTML element detected by the id "app"

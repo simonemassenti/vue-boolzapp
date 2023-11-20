@@ -65,8 +65,6 @@
                     <div class="search-chat-row">
                         <div class="search-chat flexer">
                             <i class="fa-solid fa-magnifying-glass"></i>
-
-
                             <input type="text" placeholder="Cerca o inizia una nuova chat" v-model="inputSearch" @keyup="search">
                         </div>
                     </div>
@@ -75,7 +73,11 @@
                     <!-- MAIN LEFT - CONTACT LIST -->
                     <div class="contacts-list">
                         <ul>
+                            <!-- For loop that goes trought the contacts array-->
+                            <!-- On the click it activates the chat() function -->
+                            <!-- and if contact.visible is true showes the contact  -->
                             <li v-for="(contact, index) in contacts" @click="chat(index)" v-show="contact.visible">
+                                <!-- the path where is the avatar's image is made by the template literal -->
                                 <img :src="`img/avatar${contact.avatar}.jpg`" :alt="contact.name" class="avatar">
 
                                 <div class="preview flexer j-between">
@@ -133,6 +135,7 @@
                     <!-- MAIN CHAT RIGHT -->
                     <div class="chat">
                         <!--My message container -->
+                        <!-- with this for cycle iterate trought the array messages, if the status is send actives the class send-wrap else active the class received-wrap -->
                         <div v-for="(msg, i) in contacts[activeIndex].messages" :class="`${msg.status}-wrap`">
 
                             <div class="msg flexer" :class="`${msg.status}`">
@@ -153,7 +156,7 @@
                                             <div>
                                                 Info messaggio
                                             </div>
-
+                                            <!-- When you click on the dropdown menu at the voice "cancella messaggio" it invokes the function deleteMsg() -->
                                             <div @click="deleteMsg(i)">
                                                 Cancella messaggio
                                             </div>
@@ -198,8 +201,9 @@
         </div>
         <!-- WRAPPER  -->
     </div>
-
+    <!-- Luxon -->
     <script src="https://cdn.jsdelivr.net/npm/luxon@3.4.4/build/global/luxon.min.js"></script>
+    <!-- Custom Script -->
     <script src="js/script.js"></script>
 </body>
 
