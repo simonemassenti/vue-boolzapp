@@ -222,7 +222,7 @@ const app = createApp({
         },
         // This function delete an element in the messages array at the index i passed as a parameter
         deleteMsg(i) {
-            if (i === 0) {
+            if (this.contacts[this.activeIndex].messages.length === 1) {
                 this.contacts[this.activeIndex].messages.pop();
             }else{
                 this.contacts[this.activeIndex].messages.splice(i, 1);
