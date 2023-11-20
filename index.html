@@ -85,13 +85,16 @@
                                         <div class="fw-600">
                                             {{ contact.name }}
                                         </div>
-                                        <div class="msg-preview">
+                                        <div v-if="contact.messages.length > 0" class="msg-preview">
                                             {{ contact.messages[contact.messages.length -1].message.slice(0,25) }}
                                             <span v-if="contact.messages[contact.messages.length -1].message.length > 25">...</span>
                                         </div>
+                                        <div v-else class="msg-preview">
+                                            Nessun messaggio
+                                        </div>
                                     </div>
 
-                                    <div class="time">
+                                    <div v-if="contact.messages.length > 0" class="time">
                                         {{ formatDate(contact.messages[contact.messages.length -1].date )}}
                                     </div>
                                 </div>
@@ -115,8 +118,11 @@
                             <div class="fw-600 mrg-h1">
                                 {{ contacts[activeIndex].name }}
                                 <!-- Time -->
-                                <div class="state">
+                                <div v-if="contacts[activeIndex].messages.length > 0" class="state">
                                     Ultimo accesso oggi alle {{ formatDate(contacts[activeIndex].messages[contacts[activeIndex].messages.length -1].date) }}
+                                </div>
+                                <div v-else class="state">
+                                    Ultimo accesso oggi
                                 </div>
                             </div>
                         </div>
@@ -136,7 +142,7 @@
                     <div class="chat">
                         <!--My message container -->
                         <!-- with this for cycle iterate trought the array messages, if the status is send actives the class send-wrap else active the class received-wrap -->
-                        <div v-for="(msg, i) in contacts[activeIndex].messages" :class="`${msg.status}-wrap`">
+                        <div v-if="contacts[activeIndex].messages.length > 0" v-for="(msg, i) in contacts[activeIndex].messages" :class="`${msg.status}-wrap`">
 
                             <div class="msg flexer" :class="`${msg.status}`">
                                 <!-- Message -->
