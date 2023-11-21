@@ -222,12 +222,7 @@ const app = createApp({
         },
         // This function delete an element in the messages array at the index i passed as a parameter
         deleteMsg(i) {
-            if (this.contacts[this.activeIndex].messages.length === 1) {
-                this.contacts[this.activeIndex].messages.pop();
-            }else{
                 this.contacts[this.activeIndex].messages.splice(i, 1);
-            }
-            
         },
         //It takes the string myDate, splites it in two parts and saves in the variable myTime the firsts 5 characters of the second element es. myDate = 12/03/2023 12:09:55 -> [12/03/2023] [12:09:55] -> 12:09
         formatDate(myDate) {
